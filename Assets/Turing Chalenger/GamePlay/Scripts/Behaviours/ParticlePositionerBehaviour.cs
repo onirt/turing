@@ -7,8 +7,9 @@ namespace Turing
 {
     public class ParticlePositionerBehaviour : MonoBehaviour
     {
-        [SerializeField] InventoryChannel _inventoryChannel;
-        [SerializeField] ParticleSystem particles;
+        [SerializeField] private InventoryChannel _inventoryChannel;
+        [SerializeField] private ParticleSystem particles;
+        [SerializeField] private int amount = 20;
 
         private void OnEnable()
         {
@@ -23,7 +24,7 @@ namespace Turing
         public void PlayAt(IPositioner positioner)
         {
             particles.transform.position = positioner.GetPostion();
-            particles.Play();
+            particles.Emit(amount);
         }
     }
 }
