@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 3108372366235893744}
   - component: {fileID: 8442937886895342961}
   - component: {fileID: 4306935314975254702}
-  - component: {fileID: 2310785840198625284}
+  - component: {fileID: 181049178954594618}
   m_Layer: 0
   m_Name: Ammom Item Interactable
   m_TagString: Untagged
@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Activated:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2310785840198625284}
+      - m_Target: {fileID: 181049178954594618}
         m_TargetAssemblyTypeName: Turing.Inventory.BaseItemBehaviour, Assembly-CSharp
         m_MethodName: Collect
         m_Mode: 1
@@ -471,7 +471,7 @@ MonoBehaviour:
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
   m_FarAttachMode: 0
---- !u!114 &2310785840198625284
+--- !u!114 &181049178954594618
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -480,12 +480,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8625125036315922749}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c55632aa411e48a3a3e31c42bdffeb4, type: 3}
+  m_Script: {fileID: 11500000, guid: fed153ddf6d644942b16ffee17e427f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _channel: {fileID: 11400000, guid: e5e306ef457a94c89b722ba4d6f3c895, type: 2}
   _model: {fileID: 11400000, guid: 282e2d6a6abd240349c57ac8a5f5164a, type: 2}
   <Count>k__BackingField: 10
+  <UpdateItem>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
   OnUse:
     m_PersistentCalls:
       m_Calls: []

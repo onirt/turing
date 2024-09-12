@@ -6,6 +6,7 @@ namespace Turing.Inventory
 {
     public class InventoryItemBehaviour : MonoBehaviour
     {
+        [SerializeField] private CanvasGroup _empty;
         [SerializeField] private TMP_Text _nameText;
         [SerializeField] private TMP_Text _countText;
         [SerializeField] private UnityEvent OnUnuseless;
@@ -13,16 +14,25 @@ namespace Turing.Inventory
 
         private IInventoryItem _item;
 
+        [ContextMenu("Delete")]
         public void Delete()
         {
             _item?.Delete();
-            gameObject.SetActive(false);
+            SetEmpty();
+        }
+
+        [ContextMenu("Use")]
+        public void Use()
+        {
+            _item?.Use();
+            UpdateItem();
         }
 
         public void Collect(IInventoryItem item)
         {
             _item = item;
-            gameObject.SetActive(true);
+            _item.UpdateItem.AddListener(UpdateItem);
+            SetFilled();
             UpdateItem();
         }
         private void UpdateItem()
@@ -41,10 +51,14 @@ namespace Turing.Inventory
             }
         }
 
-        public void Use()
+        public void SetFilled()
         {
-            _item?.Use();
-            UpdateItem();
+            _empty.alpha = 1;
+        }
+
+        public void SetEmpty()
+        {
+            _empty.alpha = 0;
         }
     }
 }

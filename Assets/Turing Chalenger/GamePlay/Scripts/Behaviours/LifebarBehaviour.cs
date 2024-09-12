@@ -9,7 +9,7 @@ namespace Turing
     {
         [SerializeField] private CharacterModel _model;
         [SerializeField] private UnityEvent<float> OnNormalizedLifeBarUpdate;
-        private int _currentLife;
+        private float _currentLife;
 
         private void Start()
         {
@@ -19,8 +19,9 @@ namespace Turing
         public void UpdateLifeBar(int amount)
         {
             _currentLife = Mathf.Clamp(_currentLife + amount, 0, _model.Life);
-
-            OnNormalizedLifeBarUpdate?.Invoke(_currentLife / _model.Life);
+            float normalized = _currentLife / _model.Life;
+            Debug.Log($"[Life][Update] {_currentLife} [Normalized]: { normalized}");
+            OnNormalizedLifeBarUpdate?.Invoke(normalized);
         }
     }
 }

@@ -8,9 +8,9 @@ namespace Turing.Inventory
     {
         public override void Use()
         {
-            OnUse?.Invoke(Count);
-            Count = 0;
             base.Use();
+            Count = 0;
+            UpdateItem?.Invoke();
         }
     }
 }

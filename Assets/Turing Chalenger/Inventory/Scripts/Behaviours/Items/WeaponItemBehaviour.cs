@@ -12,5 +12,11 @@ namespace Turing.Inventory
             WeaponItemModel model = (WeaponItemModel)Model;
             OnUse?.Invoke(-model.Damage);
         }
+
+        public void Reammo(int ammo)
+        {
+            Count += ammo;
+            UpdateItem?.Invoke();
+        }
     }
 }

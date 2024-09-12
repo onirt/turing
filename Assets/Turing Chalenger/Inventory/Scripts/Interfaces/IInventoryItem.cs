@@ -1,8 +1,9 @@
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Turing.Inventory
 {
-    public interface IInventoryItem
+    public interface IInventoryItem: IPositioner
     {
         BaseItemModel Model { get; }
 
@@ -13,5 +14,12 @@ namespace Turing.Inventory
         void Collect();
         void Delete();
         void Restart();
+
+        UnityEvent UpdateItem { get; set; }
+    }
+
+    public interface IPositioner
+    {
+        Vector3 GetPostion();
     }
 }
