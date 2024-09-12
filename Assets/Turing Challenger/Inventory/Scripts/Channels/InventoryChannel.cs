@@ -19,12 +19,12 @@ namespace Turing.Inventory
 
         public void Delete(IInventoryItem item)
         {
-            OnUse?.Invoke(item);
+            OnDelete?.Invoke(item);
         }
 
         public void Use(IInventoryItem item)
         {
-            OnDelete?.Invoke(item);
+            OnUse?.Invoke(item);
         }
     }
 }

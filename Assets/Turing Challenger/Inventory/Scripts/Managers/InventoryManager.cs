@@ -11,7 +11,7 @@ namespace Turing.Inventory
         [SerializeField] private int _slots = 9;
 
         private Dictionary<int, InventoryItemBehaviour> _items = new();
-        private Queue<InventoryItemBehaviour> _unused = new();
+        private Stack<InventoryItemBehaviour> _unused = new();
 
         private void Start()
         {
@@ -22,7 +22,7 @@ namespace Turing.Inventory
                 uiItem = Instantiate(_inventoryItemPrefab, _root);
                 uiItem.name = $"Slot_{i}";
                 uiItem.SetEmpty();
-                _unused.Enqueue(uiItem);
+                _unused.Push(uiItem);
             }
         }
 
@@ -49,7 +49,7 @@ namespace Turing.Inventory
             InventoryItemBehaviour uiItem;
             if (!_items.ContainsKey(item.Id))
             {
-                uiItem = _unused.Dequeue();
+                uiItem = _unused.Pop();
                 Debug.Log($"[Collect][Slot]: {uiItem.name} [Item]:{item.Id}");
                 _items.Add(item.Id, uiItem);
                 uiItem.Collect(item);
@@ -62,7 +62,7 @@ namespace Turing.Inventory
             if (_items.ContainsKey(item.Id))
             {
                 Debug.Log($"[Delete][Slot]: {_items[item.Id].name} [Item]:{item.Id}");
-                _unused.Enqueue(_items[item.Id]);
+                _unused.Push(_items[item.Id]);
                 _items.Remove(item.Id);
             }
         }
