@@ -42,8 +42,10 @@ namespace Turing.Inventory
 
         public void Collect(IInventoryItem item)
         {
+            Debug.Log($"[1][Collect][Item]:{item.Id} [Unused]: {_unused.Count}");
             if (_unused.Count == 0) return;
 
+            Debug.Log($"[2][Collect][Item]:{item.Id}");
             InventoryItemBehaviour uiItem;
             if (!_items.ContainsKey(item.Id))
             {
@@ -56,9 +58,10 @@ namespace Turing.Inventory
 
         public void Delete(IInventoryItem item)
         {
+            Debug.Log($"[Delete][Item]:{item.Id}");
             if (_items.ContainsKey(item.Id))
             {
-                Debug.Log($"Delete[Slot]: {_items[item.Id].name} [Item]:{item.Id}");
+                Debug.Log($"[Delete][Slot]: {_items[item.Id].name} [Item]:{item.Id}");
                 _unused.Enqueue(_items[item.Id]);
                 _items.Remove(item.Id);
             }

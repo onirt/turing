@@ -49,6 +49,7 @@ namespace Turing.Inventory
 
         public virtual void Delete()
         {
+            Debug.Log($"[BaseItemBehaviour][Delete]: {Count}");
             _channel.Delete(this);
             Restart();
         }
