@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-namespace Turing
+
+namespace Turing.Inventory
 {
     public interface IInventory
     {
-        void Use();
-        void Collect();
-        void Delete();
+        void Collect(IInventoryItem item);
+        void Use(IInventoryItem item);
+        void Delete(IInventoryItem item);
     }
 }

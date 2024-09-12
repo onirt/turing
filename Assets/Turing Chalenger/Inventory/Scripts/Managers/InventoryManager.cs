@@ -1,65 +1,64 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Turing.Inventory
 {
-    public class InventoryManager
+    public class InventoryManager : MonoBehaviour, IInventory
     {
-		private static InventoryManager instance = null;
-		private static readonly object padlock = new object();
-		public static InventoryManager Instance
-		{
-			get
-			{
-				lock (padlock)
-				{
-					if (instance == null)
-					{
-						instance = new InventoryManager();
-					}
-					return instance;
-				}
-			}
-		}
-		private Dictionary<int, IInventoryItem> collected;
-		public UnityAction<IInventoryItem> OnCollect;
-		InventoryManager()
-		{
-			collected = new();
-		}
+        [SerializeField] private InventoryChannel _channel;
+        [SerializeField] private Transform _root;
 
-		public void Collect(IInventoryItem item)
+        private Dictionary<int, InventoryItemBehaviour> _items = new();
+        private Queue<InventoryItemBehaviour> _unused = new();
+
+        private void OnEnable()
         {
-			if (collected.ContainsKey(item.Id))
+            _channel.OnCollect += Collect;
+            _channel.OnUse += Use;
+            _channel.OnDelete += Delete;
+        }
+
+        private void OnDisable()
+        {
+            _channel.OnCollect -= Collect;
+            _channel.OnUse -= Use;
+            _channel.OnDelete -= Delete;
+        }
+
+        public void Collect(IInventoryItem item)
+        {
+            if (!_items.ContainsKey(item.Id))
             {
-				collected[item.Id].Count += item.Count;
+                InventoryItemBehaviour uiItem;
+                if (_unused.Count > 0)
+                {
+                    uiItem = _unused.Dequeue();
+                    uiItem.gameObject.SetActive(true);
+                }
+                else
+                {
+                    uiItem = Instantiate(item.Model.UI, _root);
+                }
+                uiItem.Collect(item);
+                _items.Add(item.Id, uiItem);
             }
             else
             {
-				collected.Add(item.Id, item);
+                _items[item.Id].Collect(item);
             }
-			OnCollect?.Invoke(collected[item.Id]);
         }
-		public void Use(IInventoryItem item)
-		{
-			if (collected.ContainsKey(item.Id))
-			{
-				collected[item.Id].Count -= item.Count;
-				if (collected[item.Id].Count <= 0)
-                {
-					item.Delete();
-				}
-			}
 
-		}
-		public void Delete(IInventoryItem item)
+        public void Delete(IInventoryItem item)
         {
-			if (collected.ContainsKey(item.Id))
-			{
-				collected.Remove(item.Id);
-			}
-		}
-	}
+            if (_items.ContainsKey(item.Id))
+            {
+                _unused.Enqueue(_items[item.Id]);
+                _items.Remove(item.Id);
+            }
+        }
+
+        public void Use(IInventoryItem item)
+        {
+        }
+    }
 }
